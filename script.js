@@ -38,26 +38,26 @@ $btnGenerarDocumento.onclick = () => {
   window.open("doc.html");
 };
 
-$canvas.addEventListener("mousedown", (evento) => {
+const handleMouseDown = (evento) => {
   xAnterior = xActual;
   yAnterior = yActual;
-  xActual = obtenerXReal(evento.clientX);
-  yActual = obtenerYReal(evento.clientY);
+  xActual = obtenerXReal(evento.clientX || evento.touches[0].clientX);
+  yActual = obtenerYReal(evento.clientY || evento.touches[0].clientY);
   contexto.beginPath();
   contexto.fillStyle = COLOR_PINCEL;
   contexto.fillRect(xActual, yActual, GROSOR, GROSOR);
   contexto.closePath();
   haComenzadoDibujo = true;
-});
+};
 
-$canvas.addEventListener("mousemove", (evento) => {
+const handleMouseMove = (evento) => {
   if (!haComenzadoDibujo) {
     return;
   }
   xAnterior = xActual;
   yAnterior = yActual;
-  xActual = obtenerXReal(evento.clientX);
-  yActual = obtenerYReal(evento.clientY);
+  xActual = obtenerXReal(evento.clientX || evento.touches[0].clientX);
+  yActual = obtenerYReal(evento.clientY || evento.touches[0].clientY);
   contexto.beginPath();
   contexto.moveTo(xAnterior, yAnterior);
   contexto.lineTo(xActual, yActual);
@@ -65,52 +65,25 @@ $canvas.addEventListener("mousemove", (evento) => {
   contexto.lineWidth = GROSOR;
   contexto.stroke();
   contexto.closePath();
-});
+};
 
-$canvas.addEventListener("mouseup", () => {
+const handleMouseUp = () => {
   haComenzadoDibujo = false;
-});
+};
 
-$canvas.addEventListener("mouseout", () => {
-  haComenzadoDibujo = false;
-});
+$canvas.addEventListener("mousedown", handleMouseDown);
+$canvas.addEventListener("mousemove", handleMouseMove);
+$canvas.addEventListener("mouseup", handleMouseUp);
 
 $canvas.addEventListener("touchstart", (evento) => {
-  const touch = new Touch({
-    identifier: evento.touches[0].identifier,
-    target: $canvas,
-    clientX: obtenerXReal(evento.touches[0].clientX),
-    clientY: obtenerYReal(evento.touches[0].clientY),
-    pageX: evento.touches[0].pageX,
-    pageY: evento.touches[0].pageY,
-  });
-  const touchEvent = new TouchEvent("touchstart", {
-    touches: [touch],
-    targetTouches: [touch],
-    changedTouches: [touch],
-    bubbles: true,
-    cancelable: true,
-    composed: true,
-  });
-  $canvas.dispatchEvent(touchEvent);
+  evento.preventDefault();
+  handleMouseDown(evento.touches[0]);
 });
 
 $canvas.addEventListener("touchmove", (evento) => {
-  const touch = new Touch({
-    identifier: evento.touches[0].identifier,
-    target: $canvas,
-    clientX: obtenerXReal(evento.touches[0].clientX),
-    clientY: obtenerYReal(evento.touches[0].clientY),
-    pageX: evento.touches[0].pageX,
-    pageY: evento.touches[0].pageY,
-  });
-  const touchEvent = new TouchEvent("touchmove", {
-    touches: [touch],
-    targetTouches: [touch],
-    changedTouches: [touch],
-    bubbles: true,
-    cancelable: true,
-    composed: true,
-  });
-  $canvas.dispatchEvent(touchEvent);
+  evento.preventDefault();
+  handleMouseMove(evento.touches[0]);
 });
+
+$canvas.addEventListener("touchend", handleMouseUp);
+$canvas.addEventListener("touchcancel", handleMouseUp);

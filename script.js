@@ -38,7 +38,7 @@ $btnGenerarDocumento.onclick = () => {
     window.open("doc.html");
 };
 // Lo demás tiene que ver con pintar sobre el canvas en los eventos del mouse
-$canvas.addEventListener("touchstart", evento => {
+$canvas.addEventListener("mousedown", evento => {
     // En este evento solo se ha iniciado el clic, así que dibujamos un punto
     xAnterior = xActual;
     yAnterior = yActual;
@@ -52,7 +52,7 @@ $canvas.addEventListener("touchstart", evento => {
     haComenzadoDibujo = true;
 });
 
-$canvas.addEventListener("touchmove", (evento) => {
+$canvas.addEventListener("mousemove", (evento) => {
     if (!haComenzadoDibujo) {
         return;
     }
@@ -70,7 +70,7 @@ $canvas.addEventListener("touchmove", (evento) => {
     contexto.stroke();
     contexto.closePath();
 });
-["touchend"].forEach(nombreDeEvento => {
+["mouseup", "mouseout"].forEach(nombreDeEvento => {
     $canvas.addEventListener(nombreDeEvento, () => {
         haComenzadoDibujo = false;
     });

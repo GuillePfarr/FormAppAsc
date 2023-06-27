@@ -70,7 +70,7 @@ $canvas.addEventListener("touchmove", (evento) => {
     contexto.stroke();
     contexto.closePath();
 });
-["touchend", "mouseout"].forEach(nombreDeEvento => {
+["touchend"].forEach(nombreDeEvento => {
     $canvas.addEventListener(nombreDeEvento, () => {
         haComenzadoDibujo = false;
     });

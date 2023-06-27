@@ -53,9 +53,9 @@ $canvas.addEventListener("touchstart", evento => {
 });
 
 $canvas.addEventListener("touchmove", (evento) => {
-    // if (!haComenzadoDibujo) {
-    //     return;
-    // }
+    if (!haComenzadoDibujo) {
+        return;
+    }
     // El mouse se está moviendo y el usuario está presionando el botón, así que dibujamos todo
 
     xAnterior = xActual;

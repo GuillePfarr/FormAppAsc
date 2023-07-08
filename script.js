@@ -1,5 +1,6 @@
 //Este código fué revisado el 8deJuliodel23
 //Funciona correctamente 
+//Fué corregido para funcionar también en dispositivos móviles
 
 const $canvas = document.querySelector("#canvas");
 const $btnDescargar = document.querySelector("#btnDescargar");
